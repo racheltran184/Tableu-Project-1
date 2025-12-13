@@ -170,6 +170,8 @@ This dashboard connects vehicle involvement and severity with **vehicle type mix
 * Evaluate interventions using before–after designs with comparison corridors/LGAs to improve attribution.
 * Review quarterly to reallocate effort based on measured outcomes and emerging risk patterns.
 ---
+## Tool Used: R & Tableu
+---
 
 ## Data assets
 This project integrates multiple datasets (typical star/relational structure):
@@ -188,8 +190,6 @@ This project integrates multiple datasets (typical star/relational structure):
 - Population join enables **rates**, not just counts
 
 ---
-
-## Tool Used: R & Tableu
 ## Repository structure
 
 ```text
