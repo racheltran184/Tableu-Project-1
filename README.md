@@ -1,218 +1,182 @@
-# 🚗 Victoria Road Crash Analysis (2012–2024)
-**Data-to-decision road safety analytics using R + Tableau .**
+# Victoria Road Crash Analysis (2012–2024)
 
-This repository analyses Victorian road crash records (2012–2024) to identify **where crashes concentrate, when risk peaks, who is most impacted, and which vehicle characteristics correlate with severity**. The work is designed to support practical decision-making, including targeted enforcement, infrastructure prioritisation, and fleet safety initiatives, alongside clear descriptive reporting.
+**Victoria counts crashes. Its deaths are somewhere else.**
 
----
+Thirteen years of Victorian police-reported crash records (**184,699 crashes, 3,318 deaths and 76,174 people seriously injured**), analysed in Tableau, R and Python. The study measures each question in deaths and serious injuries, not crash counts, and traces every death to a road, an hour, a crash type, a person and a car. Each recommendation is tied to the finding it answers, with an owner, a rule for where it starts, and a measure.
 
-## Why this project matters
-Road safety is not a single problem, it is usually **two problems at once**:
-
-- **Frequency problem (Metro):** high volumes driven by traffic density and exposure
-- **Severity problem (Regional):** lower volumes, but disproportionately higher fatality risk once a crash occurs
-
-This repo makes that split visible so interventions can be designed correctly.
+**Case study website:** https://racheltran184.github.io/Tableu-Project-1/
 
 ---
 
-## Dashboards & Key Insights (with visuals)
+## The question
 
-### 1) Strategic Gap: Are we on track for 2030 targets?
-The chart below frames crashes against the required downward trajectory and highlights structural breaks (e.g., COVID-era dip, post-2021 rebound).
+Victoria's Road Safety Strategy 2021–2030 aims to **halve road deaths by 2030** and cut serious injuries. A crash-count dashboard shows where traffic is. It doesn't show where people die, so it can't say where a barrier, a lower speed limit or a patrol hour saves a life.
 
-![Strategic Gap Analysis](https://github.com/racheltran184/Tableu-Project-1/blob/main/visualizations/strategic_gap_analysis.png)
+| Who asks | What they need to know |
+|---|---|
+| Road safety leadership | Are deaths on track to halve by 2030, and what is driving the gap? |
+| Transport planning | Which roads should get barriers, line marking or a lower limit first? |
+| Police | Which hours and roads should enforcement cover to prevent the most deaths? |
+| Accident insurer | Which road users and vehicles need their own program? |
 
-**Insights**
-- Crashes peaked mid-decade, dropped sharply during COVID mobility restrictions, then **rebounded and stabilised above the required glide path**.
-- The “gap to target” framing turns trend lines into a **delivery problem**: how large the reduction must be, not just whether it increased/decreased.
-
----
-
-### 2) Beyond the Hotspots: Metro vs Regional risk is not the same thing
-This dashboard contrasts **crash counts** with **fatality rate per 1,000 residents**, plus a combined view comparing crash volume to fatality rate by LGA.
-
-![Metro vs Regional Risk](https://github.com/racheltran184/Tableu-Project-1/blob/main/visualizations/metro_vs_regional_risk.png)
-
-**Insights**
-- Metro LGAs dominate crash *volume* (exposure + congestion).
-- Regional/Country LGAs can show **higher per-capita fatality risk**, even with fewer crashes.
-- The combined chart prevents a common policy mistake: **funding only where crashes are most numerous**, rather than where crashes are most lethal.
+**How to read the numbers**
+- **Measure:** deaths and serious injuries. Most crashes injure without killing.
+- **Rates:** "deaths per 100 crashes" shows how lethal a crash is in a place, hour or crash type. The data has no traffic volumes or population by year, so it is **not risk per kilometre driven**.
+- **Scope:** police-reported injury crashes, January 2012 to December 2024. Serious injuries for 2024 fall by a fifth while crashes hold steady, so 2024 serious-injury figures are treated as provisional.
 
 ---
 
-### 3) Operational Targeting: When do crashes spike and who is most affected?
-This view supports deployment decisions by combining **year trend, weekday, hour category, and demographic breakdown** in one place.
+## Key findings
 
-![Crash Frequency by Hour, Day, and Gender](https://github.com/racheltran184/Tableu-Project-1/blob/main/visualizations/temporal_demographics_dashboard.png)
-
-**Insights**
-- Clear operational peaks: **late-week afternoon periods (afternoon rush)** dominate crash frequency.
-- Demographics confirm the burden distribution (e.g., adult cohorts contribute the largest absolute counts), enabling targeted messaging/enforcement windows.
-
----
-
-### 4) Vehicle Factors: Which vehicle attributes show different severity patterns?
-This dashboard connects vehicle involvement and severity with **vehicle type mix, road user role, and vehicle age patterns**.
-
-![Influence of Vehicle Characteristics on Crash Severity](https://github.com/racheltran184/Tableu-Project-1/blob/main/visualizations/vehicle_characteristics_dashboard.png)
-
-**Insights**
-- Passenger vehicles dominate totals due to exposure, but certain categories (e.g., motorcycles/utility-style vehicles) can exhibit **different severity compositions**.
-- Vehicle age comparison provides a simple lens for the role of **fleet renewal and safety feature availability**.
+| # | Finding | Evidence |
+|---|---|---|
+| 1 | **Deaths are rising, away from the 2030 line** | From the 2018–20 average of 230 deaths a year, a straight line to half reaches 115 in 2030 and sits at 184 in 2024. Deaths were 295 in 2023 and 284 in 2024: **100 above the line**, while crashes held at about 14,500 a year. |
+| 2 | **Most crashes don't kill. Leaving the lane does** | Running off the road or losing control: 23% of crashes, **40% of deaths**. Head-on: 3% of crashes, **16% of deaths** (8.7 per 100 crashes). Rear-end: 18% of crashes, 5% of deaths. Lane departures are 56% of all deaths and 69% of regional deaths. |
+| 3 | **The busiest hour is not the deadliest** | Crashes peak from 3 to 6 pm (1.4 deaths per 100 crashes). From 10 pm to 6 am: **10% of crashes, 20% of deaths**; midnight to 4 am reaches 4.2–4.7 per 100. Friday has the most crashes; Saturday has the most deaths. |
+| 4 | **A quarter of deaths: one road type, one crash type** | Lane departures on undivided regional 100–110 km/h roads: **9,998 crashes (5.4%), 785 deaths (24%)**, 7.9 deaths per 100 crashes. 100 km/h roads see 5.4 deaths per 100 crashes, 60 km/h roads 1.1. |
+| 5 | **Twelve highways carry a quarter of regional deaths** | The regional sections of 12 roads hold 23% of regional deaths on 11% of regional crashes. The Murray Valley, Western, Northern, Goulburn Valley, Glenelg and Hamilton highways kill 9–11 people per 100 crashes. Moira (7.4), Corangamite (7.1), Strathbogie (6.8) and Hepburn (6.8) have the highest council rates. |
+| 6 | **The rise came from two kinds of road** | Deaths went from 230 a year (2018–20) to 290 (2023–24). **Melbourne roads of 90 km/h or less: +32 a year**; **regional 100–110 km/h roads: +29**. Motorcyclist deaths rose from 37 to 55 a year. |
+| 7 | **The people most likely to die in a crash** | Without a seatbelt, 4.6% of occupants died, against 0.5% with one (**9×**); unbelted deaths are 85% male, 68% regional, and 24% of occupant deaths have the belt recorded as unknown. 6.7% of pedestrians aged 70+ who were hit died. Motorcyclists are 6% of people in crashes and 17% of deaths. |
+| 8 | **Old cars turn crashes into deaths** | Driver deaths per 1,000 drivers in a crash: **2.9 in a car under 5 years old, 13.0 at 20+ years**. Cars 15+ years old are 25% of drivers in crashes and 44% of driver deaths. The gap holds on the same roads, for drivers of the same age, and with a seatbelt on. |
 
 ---
 
-## 🎯 Policy Solutions and Implementation Plan
+## Actions
 
-### 1) Metropolitan Victoria (high crash volume: frequency problem)
+Each action answers one finding and is measured in its own deaths and serious injuries. Sizes are counts from 2012–2024, not forecasts of lives saved.
 
-**Objective:** Reduce crash occurrence by lowering conflict exposure, improving compliance, and limiting distraction during peak urban travel.
+### Roads (transport planning)
+| Action | Why | Starts where | Measure |
+|---|---|---|---|
+| **01 Treat lane departure on 12 highways:** flexible barriers, wide centre lines, audio-tactile line marking | 785 deaths (24%) from 5.4% of crashes | Sections ranked by five-year lane-departure deaths and serious injuries; Murray Valley, Northern, Goulburn Valley and Western highways first | Lane-departure deaths and serious injuries, treated against untreated sections |
+| **02 Lower the limit where works are years away:** 100 → 80 km/h review | 5.4 deaths per 100 crashes at 100 km/h against 2.0 at 80 km/h | Top quarter of undivided sections with no barrier funded within two years | Mean speed and serious crashes before and after; keep where harm falls over 24 months |
+| **03 Fix Melbourne's 60–80 km/h arterials:** raised platforms, roundabouts, protected right turns, roadside protection | Melbourne deaths on roads ≤ 90 km/h rose from 88 to 120 a year | Nepean Highway, Ballarat Road, Ferntree Gully Road, Stud Road | Deaths and serious injuries at treated sites |
 
-**A. Intersection conflict reduction (engineering-led)**
+### Police
+| Action | Why | Starts where | Measure |
+|---|---|---|---|
+| **04 Move patrol hours to nights and weekends** | 10% of crashes, 20% of deaths at night; 386 of 677 night deaths followed a car leaving the road | 10 pm–6 am and weekends on the action 01 corridors | Night deaths per 100 crashes, regional |
+| **05 Check seatbelts on regional roads at night** | Unbelted occupants die at 9× the belted rate; unbelted deaths are 68% regional, 85% male | Every night and weekend operation on regional 100–110 km/h roads | Unbelted share of occupant deaths (16% now) |
+| **06 Record the belt at every death** | 504 occupant deaths (24%) have belt status unknown | Every occupant killed or seriously injured | Belt status unknown (target: under 5%) |
 
-* Implement targeted intersection upgrades at high-crash sites: protected right-turn phases, raised safety platforms near activity centres, improved line-marking and turning bays, and roundabout conversions where feasible.
-* Prioritise sites using a ranked list of metro LGAs and corridors with consistently high crash counts.
-* **Success measures:** reduction in crashes at treated intersections relative to matched untreated sites (before–after with comparison).
+### Road users and vehicles (accident insurer, councils)
+| Action | Why | Starts where | Measure |
+|---|---|---|---|
+| **07 A rider program for lane departure:** barrier underrun protection, rider training | Rider deaths rose from 37 to 55 a year; 221 of 549 followed leaving the road | Corridor sections where riders crash | Rider deaths by crash type |
+| **08 Slow traffic where older people walk:** 40 km/h, longer crossing times | 6.7% of pedestrians aged 70+ who are hit die; 72% of pedestrian deaths are in Melbourne | Melbourne shopping strips, aged-care and health precincts | Pedestrian deaths and serious injuries, aged 70+ |
+| **09 Trade up old cars, regional first** | Cars 15+ years old: 25% of drivers in crashes, 44% of driver deaths | Councils on the corridor list (32% of regional crash-involved cars are 15+) | Share of crash-involved cars aged 15+; driver deaths per 1,000 |
 
-**B. Speed compliance (enforcement + road design)**
-
-* Expand automated enforcement on arterial corridors (point-to-point and high-visibility mobile operations), aligned to peak travel windows.
-* Apply “self-explaining road” treatments (gateway designs, lane narrowing, improved signage consistency) where speeding risk is structural.
-* **Success measures:** improved speed compliance rates and reduced serious-injury crashes on treated corridors.
-
-**C. Congestion and distraction management**
-
-* Improve signal coordination/adaptive control on commuter routes to reduce stop–start conflict.
-* Increase mobile phone detection and seatbelt enforcement in high-volume corridors.
-* **Success measures:** reduction in peak-period crash rate per exposure proxy (e.g., crashes per day/hour window) and declining share of distraction-related incidents.
-
----
-
-### 2) Regional and Country Victoria (lower volume, higher lethality: severity problem)
-
-**Objective:** Reduce fatal and serious-injury outcomes by preventing high-energy impact types and improving post-crash survivability.
-
-**A. Median barriers and shoulder safety**
-
-* Install wire-rope median barriers on high-speed undivided routes with head-on risk.
-* Expand shoulder sealing and rumble strips to reduce run-off-road crashes linked to fatigue and inattention.
-* Add overtaking lanes and improved delineation on corridors with risky passing demand.
-* **Success measures:** reductions in head-on/run-off-road fatal and serious-injury crashes per treated corridor length.
-
-**B. Speed management on high-speed routes**
-
-* Conduct corridor-level “Safe System” speed reviews to align posted limits with roadside risk and crash severity potential.
-* Deploy point-to-point enforcement on long regional corridors to address sustained speeding.
-* **Success measures:** reduced mean/free-flow speeds and reduced fatal/serious injury rates on targeted corridors.
-
-**C. Strengthened trauma response coverage**
-
-* Optimise dispatch and coverage planning for high-risk regional LGAs and long travel-time areas.
-* Improve first-responder capability (training and equipment) where access to definitive care is structurally delayed.
-* **Success measures:** reduced time-to-scene and time-to-trauma transfer in priority areas; improved survivability indicators for serious crashes.
-
-**D. Safer vehicle adoption (regional targeting)**
-
-* Prioritise incentives for vehicles equipped with modern safety features (e.g., AEB, ESC, lane support systems) in LGAs showing high per-capita fatality rates and older fleet profiles.
-* **Success measures:** declining share of crashes involving older vehicles and reduced severity conditional on crash occurrence.
+### Measurement (road safety leadership)
+| Action | Why | Measure |
+|---|---|---|
+| **10 Report deaths against the line every quarter**, by regional highways, Melbourne arterials, riders and pedestrians | 2024 ended 100 deaths above the line while crashes held flat | Deaths against the line (173 in 2025, 115 in 2030) |
+| **11 Add exposure:** traffic counts, section lengths, council population by year | Works are funded by section, so the ranking needs deaths per kilometre driven | Corridor sections ranked per 100 million km |
 
 ---
 
-### 3) Temporal Targeting (Friday afternoon peak)
+## Dashboards
 
-**Objective:** Reduce incidents during the identified highest-risk operational window.
+### Trend (R)
+Monthly crashes with a 12-month moving average, the national and state strategy periods, and a crash-count glide path.
 
-**A. Focused enforcement deployment**
+![Strategic gap analysis](visualizations/strategic_gap_analysis.png)
 
-* Establish recurring enforcement operations during Friday afternoon peak periods, prioritising speeding, mobile phone use, and seatbelt compliance on commuter corridors.
-* **Success measures:** year-over-year reduction in crash counts within the Friday peak window and improvements in compliance indicators.
+### Where (Tableau)
+Crashes and fatalities per 1,000 residents by council area, with crash volume against fatality rate for each council.
 
-**B. Behaviour-specific risk communication**
+![Metro vs regional risk](visualizations/metro_vs_regional_risk.png)
 
-* Deliver short, repeated messages tied to the peak window (fatigue, haste, distraction) through employers, freight/logistics partners, and commuter channels.
-* **Success measures:** reduction in peak-window crashes; optional supporting measures include campaign reach and engagement.
+### When and who (Tableau)
+Severity by year, crashes by weekday and time of day, and casualties by age group and sex.
 
----
+![Temporal and demographic dashboard](visualizations/temporal_demographics_dashboard.png)
 
-### 4) Vehicle Safety and Vulnerable Road Users
+### Vehicles (Tableau)
+Casualties by vehicle type and severity, road user types, top vehicle types and average car age by severity.
 
-**Objective:** Reduce severity by addressing vehicle risk mechanisms and protecting high-risk road users.
-
-**A. Fleet renewal (targeted)**
-
-* Implement scrappage/upgrade incentives focused on older vehicles in high-risk LGAs, linked to minimum safety feature thresholds in replacement vehicles.
-* **Success measures:** reduction in fatal/serious injuries where older vehicle involvement is overrepresented.
-
-**B. Motorcycle severity reduction**
-
-* Improve safety on high-risk motorcycle corridors (curve warning systems, skid-resistant surfacing, safer roadside barriers).
-* Support protective gear adoption through incentives and compliance campaigns.
-* **Success measures:** reduced motorcycle fatal/serious injury rate per crash.
-
-**C. Utility vehicle rollover risk**
-
-* Address rollover risk through load-limit enforcement, modification compliance checks, and fleet safety requirements (ESC/stability features).
-* Improve shoulders and clear zones on regional routes where rollover risk is elevated.
-* **Success measures:** reduced rollover crash share and reduced severity outcomes for utility vehicles.
+![Vehicle characteristics dashboard](visualizations/vehicle_characteristics_dashboard.png)
 
 ---
 
-## Governance and Evaluation
+## Method
 
-* Establish a Road Safety Delivery Scorecard with a small set of outcome and operational KPIs:
+1. **Join:** crashes to people on `ACCIDENT_NO`; drivers to their car on `ACCIDENT_NO` + `VEHICLE_ID`; councils to `LGA_POLYGON.shp` in Tableau.
+2. **Classify:** one crash type per crash from the police DCA codes (pedestrian struck, head-on, ran off the road or lost control, intersection, rear-end, other). **Lane departure** = ran off the road, lost control or head-on.
+3. **Weigh:** share of deaths against share of crashes; deaths per 100 crashes; deaths a year against a straight line from the 2018–20 average to half by 2030.
+4. **Locate:** Melbourne (Metro) or regional (Country) by speed zone and divided/undivided road; regional roads ranked by deaths; deaths per 100 crashes by clock hour.
+5. **Control:** car age compared within the same road type, the same driver age group and among belted drivers only.
 
-  * fatalities and serious injuries (overall and per-capita),
-  * metro crash frequency (volume proxy),
-  * regional fatality rate per population,
-  * Friday peak crash rate,
-  * speed and distraction compliance indicators,
-  * share of crashes involving older vehicles.
-* Evaluate interventions using before–after designs with comparison corridors/LGAs to improve attribution.
-* Review quarterly to reallocate effort based on measured outcomes and emerging risk patterns.
+**Data checks**
+
+| Check | Result | Handling |
+|---|---|---|
+| One row per crash | 184,699 crashes, no repeated crash numbers | Passed |
+| People without a crash | 4,653 of 436,360 person records (1.1%) | Left out of person-level rates |
+| Seatbelt status | 24% of occupant deaths recorded as unknown | Unbelted figures read as a floor |
+| Year of manufacture | 97.7% usable | Car age only where valid |
+| Serious injuries in 2024 | 4,525 against 5,618 in 2023 (−19.5%) | Treated as provisional |
+| Exposure | No traffic volumes, road lengths or yearly population | Rates per crash or per person in a crash |
+
 ---
-## Tool Used: R & Tableu
+
+## Reproduce
+
+```bash
+pip install pandas numpy
+python3 analysis/deep_dive.py Data site_data.json
+```
+
+`analysis/deep_dive.py` reads the three gzipped tables in `Data/` and writes every figure used on the website to one JSON file. The code blocks shown on the website are taken from this script.
+
 ---
+
+## Tools
+
+- **Tableau:** three dashboards and the council map (`Victoria Car Crash Analysis.twb`)
+- **R (ggplot2):** monthly trend and glide path (`Victoria Road Crash Trend.R`)
+- **Python (pandas):** crash typing, harm weighting, corridors, people and vehicle analysis (`analysis/deep_dive.py`)
 
 ## Data assets
-This project integrates multiple datasets (typical star/relational structure):
 
-- `crash1.csv` — crash-level incident records (time, location, severity, etc.)
-- `vehicle1.csv` — vehicle-level attributes involved in crashes
-- `person1.csv` — person/casualty-level demographics and road user role
-- `hour.csv` — time-based crash aggregation inputs (hour / bins)
-- `LGA_POLYGON.shp` — LGA boundaries for spatial enrichment
-- `LGA_Year_Population_Victoria.csv` — population denominators for rate calculations
-- `data_dictionary.xlsx` — field definitions / metadata
+| File | Contents |
+|---|---|
+| `Data/crash1.csv.gz` | One row per crash: date, hour, location, council, speed zone, road, crash type (DCA), severity, deaths and serious injuries |
+| `Data/person1.csv.gz` | One row per person: age group, sex, road user type, injury level, seatbelt or helmet |
+| `Data/vehicle1.csv.gz` | One row per vehicle: type, year of manufacture, body style |
+| `Data/hour.csv` | Hour-to-time-band mapping used in Tableau |
+| `Data/LGA_POLYGON.shp` | Council boundaries for the Tableau map |
+| `Data/data_dictionary.xlsx` | Field definitions |
 
-**Join logic (high level)**
-- Crash ↔ Vehicle ↔ Person linked via accident/entity identifiers
-- Spatial join maps crash points to LGA polygons
-- Population join enables **rates**, not just counts
+The per-1,000-resident map in the Tableau workbook uses a council population file (`LGA_Year_Population_Victoria.csv`) that is not included in this repository.
 
----
 ## Repository structure
 
 ```text
-victoria-road-crash-analysis/
-│
+Tableu-Project-1/
+├── index.html                          # case study website (GitHub Pages)
+├── analysis/
+│   └── deep_dive.py                    # Python analysis behind the website
 ├── Data/
-│   ├── LGA_POLYGON.shp
 │   ├── crash1.csv.gz
 │   ├── person1.csv.gz
 │   ├── vehicle1.csv.gz
 │   ├── hour.csv
+│   ├── LGA_POLYGON.shp
 │   └── data_dictionary.xlsx
-│
 ├── visualizations/
-│   ├── metro_vs_regional_risk.png
 │   ├── strategic_gap_analysis.png
+│   ├── metro_vs_regional_risk.png
 │   ├── temporal_demographics_dashboard.png
 │   └── vehicle_characteristics_dashboard.png
-│
 ├── Victoria Car Crash Analysis.twb
 ├── Victoria Road Crash Trend.R
 ├── Report.pdf
 └── README.md
-
 ```
 
+---
+
+**Project:** BUSA8090 Data and Visualisation for Business, Macquarie University, 2025.
+**Author:** Rachel Tran · [Portfolio](https://racheltran.vercel.app/) · [LinkedIn](https://www.linkedin.com/in/racheltran184/) · racheltran184@gmail.com
+
+*Figures come from Victoria's open road crash data as published in this repository and may differ from official road toll counts. Counts describe the past; they are not forecasts of lives saved.*
