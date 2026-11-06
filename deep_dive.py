@@ -3,7 +3,7 @@
 Reads the three crash tables from the repository's Data folder and writes every
 figure used on the case-study page to one JSON file.
 
-Usage:  python3 analysis/deep_dive.py Data site_data.json
+Usage:  python3 deep_dive.py Data site_data.json
 """
 import json
 import sys
