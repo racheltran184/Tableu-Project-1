@@ -1,10 +1,11 @@
-# Victoria Road Crash Analysis (2012–2024)
+# Victoria Road Safety Analytics
+
+[![Case Study](https://img.shields.io/badge/Case_Study-Read_the_page-111111?style=for-the-badge)](https://racheltran184.github.io/Tableu-Project-1/)
+[![Tableau](https://img.shields.io/badge/Tableau-R_·_Python-E97627?style=for-the-badge&logo=tableau&logoColor=white)](#reproduce)
 
 **Victoria counts crashes. Its deaths are somewhere else.**
 
 Thirteen years of Victorian police-reported crash records (**184,699 crashes, 3,318 deaths and 76,174 people seriously injured**), analysed in Tableau, R and Python. The study measures each question in deaths and serious injuries, not crash counts, and traces every death to a road, an hour, a crash type, a person and a car. Each recommendation is tied to the finding it answers, with an owner, a rule for where it starts, and a measure.
-
-**Case study website:** https://racheltran184.github.io/Tableu-Project-1/
 
 ---
 
@@ -30,9 +31,9 @@ Victoria's Road Safety Strategy 2021–2030 aims to **halve road deaths by 2030*
 
 | # | Finding | Evidence |
 |---|---|---|
-| 1 | **Deaths are rising, away from the 2030 line** | From the 2018–20 average of 230 deaths a year, a straight line to half reaches 115 in 2030 and sits at 184 in 2024. Deaths were 295 in 2023 and 284 in 2024: **100 above the line**, while crashes held at about 14,500 a year. |
+| 1 | **Deaths are rising, away from the 2030 line** | From the 2018–20 average of 230 deaths a year, a straight line to half reaches 115 in 2030 and sits at 184 in 2024. Deaths were 295 in 2023 and 284 in 2024: **100 above the line**, while crashes held between 14,000 and 14,900 a year. |
 | 2 | **Most crashes don't kill. Leaving the lane does** | Running off the road or losing control: 23% of crashes, **40% of deaths**. Head-on: 3% of crashes, **16% of deaths** (8.7 per 100 crashes). Rear-end: 18% of crashes, 5% of deaths. Lane departures are 56% of all deaths and 69% of regional deaths. |
-| 3 | **The busiest hour is not the deadliest** | Crashes peak from 3 to 6 pm (1.4 deaths per 100 crashes). From 10 pm to 6 am: **10% of crashes, 20% of deaths**; midnight to 4 am reaches 4.2–4.7 per 100. Friday has the most crashes; Saturday has the most deaths. |
+| 3 | **The busiest hour is not the deadliest** | Crashes peak from 3 to 6 pm; Friday from 3 to 7 pm alone has 9,458 crashes, at 1.4 deaths per 100. From 10 pm to 6 am: **10% of crashes, 20% of deaths**; midnight to 4 am reaches 4.2–4.7 per 100. Friday has the most crashes; Saturday has the most deaths. |
 | 4 | **A quarter of deaths: one road type, one crash type** | Lane departures on undivided regional 100–110 km/h roads: **9,998 crashes (5.4%), 785 deaths (24%)**, 7.9 deaths per 100 crashes. 100 km/h roads see 5.4 deaths per 100 crashes, 60 km/h roads 1.1. |
 | 5 | **Twelve highways carry a quarter of regional deaths** | The regional sections of 12 roads hold 23% of regional deaths on 11% of regional crashes. The Murray Valley, Western, Northern, Goulburn Valley, Glenelg and Hamilton highways kill 9–11 people per 100 crashes. Moira (7.4), Corangamite (7.1), Strathbogie (6.8) and Hepburn (6.8) have the highest council rates. |
 | 6 | **The rise came from two kinds of road** | Deaths went from 230 a year (2018–20) to 290 (2023–24). **Melbourne roads of 90 km/h or less: +32 a year**; **regional 100–110 km/h roads: +29**. Motorcyclist deaths rose from 37 to 55 a year. |
@@ -123,18 +124,18 @@ Casualties by vehicle type and severity, road user types, top vehicle types and 
 
 ```bash
 pip install pandas numpy
-python3 analysis/deep_dive.py Data site_data.json
+python3 deep_dive.py Data site_data.json
 ```
 
-`analysis/deep_dive.py` reads the three gzipped tables in `Data/` and writes every figure used on the website to one JSON file. The code blocks shown on the website are taken from this script.
+`deep_dive.py` reads the three gzipped tables in `Data/` and writes every figure used on the website to one JSON file. The code blocks shown on the website are taken from this script.
 
 ---
 
 ## Tools
 
-- **Tableau:** three dashboards and the council map (`Victoria Car Crash Analysis.twb`)
-- **R (ggplot2):** monthly trend and glide path (`Victoria Road Crash Trend.R`)
-- **Python (pandas):** crash typing, harm weighting, corridors, people and vehicle analysis (`analysis/deep_dive.py`)
+- **Tableau:** three dashboards and the council map (`Victoria Car Crash Analysis.twbx`, a packaged workbook with its own data extract)
+- **R (ggplot2):** monthly trend and glide path (`Victoria Road Crash Trend.R`; run it from the repository root)
+- **Python (pandas):** crash typing, harm weighting, corridors, people and vehicle analysis (`deep_dive.py`)
 
 ## Data assets
 
@@ -144,18 +145,17 @@ python3 analysis/deep_dive.py Data site_data.json
 | `Data/person1.csv.gz` | One row per person: age group, sex, road user type, injury level, seatbelt or helmet |
 | `Data/vehicle1.csv.gz` | One row per vehicle: type, year of manufacture, body style |
 | `Data/hour.csv` | Hour-to-time-band mapping used in Tableau |
-| `Data/LGA_POLYGON.shp` | Council boundaries for the Tableau map |
+| `Data/LGA_POLYGON.shp` | Council boundary geometry for the Tableau map (the matching `.dbf` and `.shx` files are not included) |
 | `Data/data_dictionary.xlsx` | Field definitions |
 
-The per-1,000-resident map in the Tableau workbook uses a council population file (`LGA_Year_Population_Victoria.csv`) that is not included in this repository.
+The per-1,000-resident map in the Tableau workbook uses a council population file (`LGA_Year_Population_Victoria.csv`) that is not included in this repository. The packaged workbook holds an extract of all its sources, so the dashboards open without them; refreshing the extract needs the original files.
 
 ## Repository structure
 
 ```text
 Tableu-Project-1/
 ├── index.html                          # case study website (GitHub Pages)
-├── analysis/
-│   └── deep_dive.py                    # Python analysis behind the website
+├── deep_dive.py                        # Python analysis behind the website
 ├── Data/
 │   ├── crash1.csv.gz
 │   ├── person1.csv.gz
@@ -168,7 +168,7 @@ Tableu-Project-1/
 │   ├── metro_vs_regional_risk.png
 │   ├── temporal_demographics_dashboard.png
 │   └── vehicle_characteristics_dashboard.png
-├── Victoria Car Crash Analysis.twb
+├── Victoria Car Crash Analysis.twbx
 ├── Victoria Road Crash Trend.R
 ├── Report.pdf
 └── README.md
@@ -176,7 +176,6 @@ Tableu-Project-1/
 
 ---
 
-**Project:** BUSA8090 Data and Visualisation for Business, Macquarie University, 2025.
-**Author:** Rachel Tran · [Portfolio](https://racheltran.vercel.app/) · [LinkedIn](https://www.linkedin.com/in/racheltran184/) · racheltran184@gmail.com
+**Rachel Tran** · [Portfolio](https://racheltran.vercel.app) · [LinkedIn](https://www.linkedin.com/in/racheltran184/) · [GitHub](https://github.com/racheltran184)
 
-*Figures come from Victoria's open road crash data as published in this repository and may differ from official road toll counts. Counts describe the past; they are not forecasts of lives saved.*
+*Individual project for a postgraduate data and visualisation unit (2025), taken deeper for the case study. Figures come from Victoria's open road crash data as published in this repository and may differ from official road toll counts. Counts describe the past; they are not forecasts of lives saved.*
